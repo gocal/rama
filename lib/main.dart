@@ -1,7 +1,8 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:rama/src/skins/aconf_parser.dart';
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
@@ -13,19 +14,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final preview = DevicePreview(
-      builder: (context) => MaterialApp(
-        locale: DevicePreview.of(context).locale, // <--- Add the locale
-        builder: DevicePreview.appBuilder, // <--- Add the builder
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: MyHomePage(title: 'Flutter Demo Home Page'),
-      ),
-    );
-
     final app = MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -51,10 +39,29 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  @override
+  void initState() {
+    super.initState();
+
+    loadConfigs();
+  }
+
+  void loadConfigs() async {
+    final configString = await rootBundle.loadString("skins/pixel_3/layout");
+
+    final parser = AConfParser();
+
+    final result = parser.parserConf(configString);
+
+    if (result != null) {}
+  }
+
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
+
+    loadConfigs();
   }
 
   @override

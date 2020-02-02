@@ -10,20 +10,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  device_preview: ^0.2.6
-
-
+  json_annotation: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^4.1.1
+  build_runner: ^1.6.7
+  json_serializable: ^3.2.3
 
 flutter:
   uses-material-design: true
 
   assets:
     - skins/
+    - skins/pixel_3/
   fonts:
     - family: Roboto
       fonts:
