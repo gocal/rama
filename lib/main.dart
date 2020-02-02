@@ -1,60 +1,71 @@
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
-import 'package:rama/src/device_frame.dart';
-import 'package:rama/src/skins/aconf_parser.dart';
+import 'package:rama/rama.dart';
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
   debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
 
-  runApp(new App());
+  runApp(RamaWidget(child: new MyApp()));
 }
 
-class App extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final app = MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
-
-    return app;
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<AconfSkin> getSkin() async {
-    final parser = AConfParser();
-    return parser.parserSkin("skins/pixel_3");
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
       body: Center(
-          child: FutureBuilder<AconfSkin>(
-              future: getSkin(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return DeviceFrame(
-                    skin: snapshot.data,
-                  );
-                } else {
-                  return Container();
-                }
-              })),
-      // This trailing comma makes auto-formatting nicer for build methods.
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

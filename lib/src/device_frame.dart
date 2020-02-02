@@ -4,8 +4,9 @@ import 'skins/aconf_parser.dart';
 
 class DeviceFrame extends StatelessWidget {
   final AconfSkin skin;
+  final Widget child;
 
-  const DeviceFrame({Key key, this.skin}) : super(key: key);
+  const DeviceFrame({Key key, this.skin, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,30 +27,37 @@ class DeviceFrame extends StatelessWidget {
 
     final aspectRatio = layout.width / layout.height;
 
-    return Container(
-      child: AspectRatio(
-        aspectRatio: aspectRatio,
-        child: Stack(
-          children: <Widget>[
-            Image.asset(background),
-            Container(
-                alignment: FractionalOffset(xOffset, yOffset),
-                child: FractionallySizedBox(
-                    widthFactor: widthFraction,
-                    heightFactor: heightFraction,
-                    child: Container(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Expanded(
-                                child: Text(
-                                    "x ${layout.part2.x} \n xOffset $xOffset")),
-                            Container(child: AndroidSysBarWidget())
-                          ],
-                        )))),
-            Image.asset(foreground),
-          ],
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: MediaQuery(
+        data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+        child: Container(
+          padding: EdgeInsets.all(8),
+          color: Color.fromARGB(128, 255, 255, 255),
+          alignment: Alignment.center,
+          child: AspectRatio(
+            aspectRatio: aspectRatio,
+            child: Stack(
+              children: <Widget>[
+                Image.asset(background),
+                Container(
+                    alignment: FractionalOffset(xOffset, yOffset),
+                    child: FractionallySizedBox(
+                        widthFactor: widthFraction,
+                        heightFactor: heightFraction,
+                        child: Container(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Expanded(child: child),
+                                Container(child: AndroidSysBarWidget())
+                              ],
+                            )))),
+                Image.asset(foreground),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -69,15 +77,15 @@ class AndroidSysBarWidget extends StatelessWidget {
           Spacer(
             flex: 3,
           ),
-          Image.asset("assets/common/ic_sysbar_back.png"),
+          Image.asset("assets/common/android/sysbar/ic_sysbar_back.png"),
           Spacer(
             flex: 1,
           ),
-          Image.asset("assets/common/ic_sysbar_home.png"),
+          Image.asset("assets/common/android/sysbar/ic_sysbar_home.png"),
           Spacer(
             flex: 1,
           ),
-          Image.asset("assets/common/ic_sysbar_recent.png"),
+          Image.asset("assets/common/android/sysbar/ic_sysbar_recent.png"),
           Spacer(
             flex: 3,
           ),
