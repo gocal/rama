@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:json_annotation/json_annotation.dart';
 
 part 'aconf_parser.g.dart';
 
@@ -46,6 +45,19 @@ class AConfParser {
   dynamic _stringOrNum(String value) {
     return int.tryParse(value) ?? double.tryParse(value) ?? value;
   }
+}
+
+class JsonKey {
+  final String name;
+
+  const JsonKey({this.name});
+}
+
+class JsonSerializable {
+  final bool createToJson;
+  final bool explicitToJson;
+
+  const JsonSerializable({this.createToJson, this.explicitToJson});
 }
 
 const jsonSerializable =
