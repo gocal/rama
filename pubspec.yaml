@@ -11,6 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  device_preview: ^0.2.6
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

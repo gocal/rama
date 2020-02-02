@@ -1,7 +1,7 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
-import 'package:rama/rama.dart';
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
@@ -13,8 +13,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RamaWidget(
-      child: MaterialApp(
+    return DevicePreview(
+      builder: (context) => MaterialApp(
+        locale: DevicePreview.of(context).locale, // <--- Add the locale
+        builder: DevicePreview.appBuilder, // <--- Add the builder
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
