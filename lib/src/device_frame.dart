@@ -10,14 +10,46 @@ class DeviceFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final display = skin.root.parts.device.display;
+    // parts
+    final displayPart = skin.root.parts.device.display;
+    final portraitPart = skin.root.parts.portrait;
+    final background = "${skin.path}/${portraitPart.background.image}";
+    final foreground = "${skin.path}/${portraitPart.onion.image}";
 
-    final aspectRatio = display.width.toDouble() / display.height.toDouble();
+    // layouts
+    final layout = skin.root.layouts.portrait;
 
-    return AspectRatio(
-      aspectRatio: aspectRatio,
-      child: Container(
-          color: Colors.blue, child: Text("aspectRatio $aspectRatio")),
+    double widthFraction = displayPart.width / layout.width;
+    double heightFraction = displayPart.height / layout.height;
+
+    double xOffset = layout.part2.x / (layout.width - displayPart.width);
+    double yOffset = layout.part2.y / (layout.height - displayPart.height);
+
+    final aspectRatio = layout.width / layout.height;
+
+    return Container(
+      color: Colors.blueGrey.withOpacity(0.2),
+      child: AspectRatio(
+        aspectRatio: aspectRatio,
+        child: Stack(
+          children: <Widget>[
+            Image.asset(background),
+            Container(
+                alignment: FractionalOffset(xOffset, yOffset),
+                child: FractionallySizedBox(
+                    widthFactor: widthFraction,
+                    heightFactor: heightFraction,
+                    child: Container(
+                        color: Colors.blue,
+                        child:
+                            Text("x ${layout.part2.x} \n xOffset $xOffset")))),
+            Image.asset(foreground),
+          ],
+        ),
+      ),
     );
   }
 }
+
+// 1000
+// 100
