@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'skins/aconf_parser.dart';
 
@@ -28,7 +27,6 @@ class DeviceFrame extends StatelessWidget {
     final aspectRatio = layout.width / layout.height;
 
     return Container(
-      color: Colors.blueGrey.withOpacity(0.2),
       child: AspectRatio(
         aspectRatio: aspectRatio,
         child: Stack(
@@ -40,9 +38,16 @@ class DeviceFrame extends StatelessWidget {
                     widthFactor: widthFraction,
                     heightFactor: heightFraction,
                     child: Container(
-                        color: Colors.blue,
-                        child:
-                            Text("x ${layout.part2.x} \n xOffset $xOffset")))),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Expanded(
+                                child: Text(
+                                    "x ${layout.part2.x} \n xOffset $xOffset")),
+                            Container(child: AndroidSysBarWidget())
+                          ],
+                        )))),
             Image.asset(foreground),
           ],
         ),
@@ -51,5 +56,33 @@ class DeviceFrame extends StatelessWidget {
   }
 }
 
-// 1000
-// 100
+class AndroidSysBarWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      height: 40,
+      color: Color.fromARGB(128, 0, 0, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Spacer(
+            flex: 3,
+          ),
+          Image.asset("assets/common/ic_sysbar_back.png"),
+          Spacer(
+            flex: 1,
+          ),
+          Image.asset("assets/common/ic_sysbar_home.png"),
+          Spacer(
+            flex: 1,
+          ),
+          Image.asset("assets/common/ic_sysbar_recent.png"),
+          Spacer(
+            flex: 3,
+          ),
+        ],
+      ),
+    );
+  }
+}
