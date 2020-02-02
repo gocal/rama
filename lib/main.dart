@@ -36,8 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Future<AconfSkin> getSkin() async {
     final parser = AConfParser();
-
-    return parser.parserSkin("/skins/pixel_3");
+    return parser.parserSkin("skins/pixel_c");
   }
 
   @override

@@ -23,8 +23,34 @@ flutter:
   uses-material-design: true
 
   assets:
-    - skins/
+    - skins/AndroidWearRound/
+    - skins/AndroidWearSquare/
+    - skins/automotive_1024/
+    - skins/galaxy_nexus/
+    - skins/nexus_10/
+    - skins/nexus_4/
+    - skins/nexus_5/
+    - skins/nexus_5x/
+    - skins/nexus_6/
+    - skins/nexus_6p/
+    - skins/nexus_7/
+    - skins/nexus_7_2013/
+    - skins/nexus_9/
+    - skins/nexus_one/
+    - skins/nexus_s/
+    - skins/pixel_2/
+    - skins/pixel_2_xl/
     - skins/pixel_3/
+    - skins/pixel_3a/
+    - skins/pixel_3a_xl/
+    - skins/pixel_3_xl/
+    - skins/pixel_c/
+    - skins/pixel_silver/
+    - skins/pixel_xl_silver/
+    - skins/polestar_2/
+    - skins/tv_1080p/
+    - skins/tv_720p/
+
   fonts:
     - family: Roboto
       fonts:
