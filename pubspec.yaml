@@ -23,7 +23,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/common/
+    - assets/common/android/statusbar
+    - assets/common/android/sysbar
     - skins/AndroidWearRound/
     - skins/AndroidWearSquare/
     - skins/automotive_1024/
