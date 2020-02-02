@@ -6,8 +6,8 @@ part of 'aconf_parser.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AconfSkin _$AconfSkinFromJson(Map<String, dynamic> json) {
-  return AconfSkin(
+AconfRoot _$AconfRootFromJson(Map<String, dynamic> json) {
+  return AconfRoot(
     json['parts'] == null
         ? null
         : AconfParts.fromJson(json['parts'] as Map<String, dynamic>),

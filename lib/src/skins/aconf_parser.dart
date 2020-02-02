@@ -1,13 +1,16 @@
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'aconf_parser.g.dart';
 
 class AConfParser {
-  AconfSkin parserConf(String config) {
-    final lines = config.split("\n");
+  Future<AconfSkin> parserSkin(String path) async {
+    final configString = await rootBundle.loadString("$path/layout");
+
+    final lines = configString.split("\n");
     final map = getTree(lines);
-    final skin = AconfSkin.fromJson(map);
-    return skin;
+    final root = AconfRoot.fromJson(map);
+    return AconfSkin(root: root, path: path);
   }
 
   Map<String, dynamic> getTree(List<String> lines) {
@@ -48,15 +51,23 @@ class AConfParser {
 const jsonSerializable =
     JsonSerializable(createToJson: false, explicitToJson: false);
 
-@jsonSerializable
 class AconfSkin {
+  final String path;
+
+  final AconfRoot root;
+
+  AconfSkin({this.root, this.path});
+}
+
+@jsonSerializable
+class AconfRoot {
   final AconfParts parts;
   final AconfLayouts layouts;
 
-  AconfSkin(this.parts, this.layouts);
+  AconfRoot(this.parts, this.layouts);
 
-  factory AconfSkin.fromJson(Map<String, dynamic> json) =>
-      _$AconfSkinFromJson(json);
+  factory AconfRoot.fromJson(Map<String, dynamic> json) =>
+      _$AconfRootFromJson(json);
 }
 
 @jsonSerializable

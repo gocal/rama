@@ -1,26 +1,25 @@
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:rama/src/device_frame.dart';
 import 'package:rama/src/skins/aconf_parser.dart';
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
   debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
 
-  runApp(new MyApp());
+  runApp(new App());
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final app = MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
 
     return app;
@@ -28,67 +27,35 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  MyHomePage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    loadConfigs();
-  }
-
-  void loadConfigs() async {
-    final configString = await rootBundle.loadString("skins/pixel_3/layout");
-
+  Future<AconfSkin> getSkin() async {
     final parser = AConfParser();
 
-    final result = parser.parserConf(configString);
-
-    if (result != null) {}
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-
-    loadConfigs();
+    return parser.parserSkin("/skins/pixel_3");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          child: FutureBuilder<AconfSkin>(
+              future: getSkin(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return DeviceFrame(
+                    skin: snapshot.data,
+                  );
+                } else {
+                  return Container();
+                }
+              })),
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
