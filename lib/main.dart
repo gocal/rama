@@ -13,7 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DevicePreview(
+    final preview = DevicePreview(
       builder: (context) => MaterialApp(
         locale: DevicePreview.of(context).locale, // <--- Add the locale
         builder: DevicePreview.appBuilder, // <--- Add the builder
@@ -25,6 +25,17 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
+
+    final app = MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+
+    return app;
   }
 }
 
